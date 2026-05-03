@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("ranant")]
+[assembly: AssemblyTitle("一个神秘的简单抽号软件，支持多种算法")]
 [assembly: AssemblyDescription("一个神秘的简单抽号软件，支持多种算法")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("公司填啥？")]
