@@ -20,7 +20,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Restore NuGet packages
-        run: nuget restore ranant.slnx
+        run: nuget restore ranant.sln
 
       - name: Build solution
         run: msbuild ranant.sln /p:Configuration=Release /p:Platform="Any CPU"
