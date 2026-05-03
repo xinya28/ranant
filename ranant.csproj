@@ -8,7 +8,7 @@
     <ProjectGuid>{CF55F58B-7C5C-4534-AFAD-C41BFC4DB280}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ranant</RootNamespace>
-    <AssemblyName>ranant</AssemblyName>
+    <AssemblyName>Ranant</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -147,6 +147,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include=".github\workflows\release.yml" />
     <None Include="packages.config" />
