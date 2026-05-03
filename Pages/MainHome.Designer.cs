@@ -32,16 +32,18 @@
             this.btnSettings = new AntdUI.ButtonShadow();
             this.cboMethod = new System.Windows.Forms.ComboBox();
             this.numInputPeople = new AntdUI.InputNumber();
-            this.label1 = new System.Windows.Forms.Label();
+            this.算法选择 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnConfirm
             // 
+            this.btnConfirm.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnConfirm.Location = new System.Drawing.Point(90, 308);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(200, 49);
             this.btnConfirm.TabIndex = 4;
-            this.btnConfirm.Text = "buttonShadow1";
+            this.btnConfirm.Text = "确认";
             // 
             // btnSettings
             // 
@@ -97,21 +99,35 @@
             0,
             0});
             // 
-            // label1
+            // 算法选择
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(50, 217);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 28);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "算法";
+            this.算法选择.AutoSize = true;
+            this.算法选择.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.算法选择.Location = new System.Drawing.Point(50, 217);
+            this.算法选择.Name = "算法选择";
+            this.算法选择.Size = new System.Drawing.Size(54, 28);
+            this.算法选择.TabIndex = 7;
+            this.算法选择.Text = "算法";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.checkBox1.Location = new System.Drawing.Point(144, 263);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(51, 21);
+            this.checkBox1.TabIndex = 9;
+            this.checkBox1.Text = "去重";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // MainHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.算法选择);
             this.Controls.Add(this.cboMethod);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnConfirm);
@@ -128,6 +144,7 @@
         private AntdUI.ButtonShadow btnSettings;
         private System.Windows.Forms.ComboBox cboMethod;
         private AntdUI.InputNumber numInputPeople;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label 算法选择;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

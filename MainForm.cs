@@ -1,12 +1,5 @@
 ﻿using ranant.Pages;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ranant
@@ -20,58 +13,85 @@ namespace ranant
         public MainForm()
         {
             InitializeComponent();
-            LoadUserControls();
+            this.FormClosing += MainForm_FormClosing;
+            LoadMainHome();
+        }
+
+        private void LoadMainHome()
+        {
+            if (mainHome == null)
+            {
+                mainHome = new MainHome();
+                mainHome.Dock = DockStyle.Fill;
+                mainHome.ConfirmClicked += MainHome_ConfirmClicked;
+                mainHome.SettingsClicked += MainHome_SettingsClicked;
+                panelContainer.Controls.Add(mainHome);
+                // 加载上次保存的设置
+                mainHome.LoadFromSettings();
+            }
+            ShowControl(mainHome);
+        }
+
+        private void LoadRunDraw()
+        {
+            if (runDraw == null)
+            {
+                runDraw = new RunDraw();
+                runDraw.Dock = DockStyle.Fill;
+                panelContainer.Controls.Add(runDraw);
+            }
+        }
+
+        private void LoadMainSettings()
+        {
+            if (mainSettings == null)
+            {
+                mainSettings = new MainSettings();
+                mainSettings.Dock = DockStyle.Fill;
+                panelContainer.Controls.Add(mainSettings);
+            }
+        }
+
+        private void MainHome_ConfirmClicked(object sender, EventArgs e)
+        {
+            // 进入抽取界面之前先保存设置
+            mainHome.SaveToSettings();
+
+            int count = mainHome.GetSelectedNumber();
+            string method = mainHome.GetSelectedMethod();
+            bool unique = mainHome.GetUniqueMode();
+
+            LoadRunDraw();
+            runDraw.SetDrawParameters(count, method, unique);
+            ShowControl(runDraw);
+        }
+
+        private void MainHome_SettingsClicked(object sender, EventArgs e)
+        {
+            // 进入设置界面之前保存设置
+            mainHome.SaveToSettings();
+            LoadMainSettings();
+            ShowControl(mainSettings);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // 关闭窗口时保存设置（如果主界面已创建）
+            mainHome?.SaveToSettings();
         }
 
         public void ShowMainHome()
         {
             ShowControl(mainHome);
         }
-        private void LoadUserControls()
-        {
-            mainHome = new MainHome();
-            runDraw = new RunDraw();
-            mainSettings = new MainSettings();
 
-            panelContainer.Controls.Add(mainHome);
-            panelContainer.Controls.Add(runDraw);
-            panelContainer.Controls.Add(mainSettings);
-
-            mainHome.Dock = DockStyle.Fill;
-            runDraw.Dock = DockStyle.Fill;
-            mainSettings.Dock = DockStyle.Fill;
-
-            mainHome.ConfirmClicked += MainHome_ConfirmClicked;
-            mainHome.SettingsClicked += MainHome_SettingsClicked;
-
-            ShowControl(mainHome);
-
-        }
-        private void MainHome_ConfirmClicked(object sender, EventArgs e)
-        {
-            // 从主界面获取人数和算法
-            int peopleCount = mainHome.GetSelectedNumber();
-            string method = mainHome.GetSelectedMethod();
-
-            // 你可以把这些数据传递给抽取界面（例如通过一个公共属性）
-            runDraw.SetDrawParameters(peopleCount, method);
-
-            // 切换到抽取界面
-            ShowControl(runDraw);
-        }
-        private void MainHome_SettingsClicked(object sender, EventArgs e)
-        {
-            // 切换到设置界面
-            ShowControl(mainSettings);
-        }
         private void ShowControl(UserControl controlToShow)
         {
-            mainHome.Visible = false;
-            runDraw.Visible = false;
-            mainSettings.Visible = false;
+            if (mainHome != null) mainHome.Visible = false;
+            if (runDraw != null) runDraw.Visible = false;
+            if (mainSettings != null) mainSettings.Visible = false;
             controlToShow.Visible = true;
             controlToShow.BringToFront();
         }
-
     }
 }
