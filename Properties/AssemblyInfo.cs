@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("一个神秘的简单抽号软件，支持多种算法")]
 [assembly: AssemblyDescription("一个神秘的简单抽号软件，支持多种算法")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("公司填啥？")]
+[assembly: AssemblyCompany("Ranant")]
 [assembly: AssemblyProduct("产品叫啥？")]
 [assembly: AssemblyCopyright("Copyright ©  2026")]
 [assembly: AssemblyTrademark("商标是啥？")]
@@ -30,6 +30,6 @@ using System.Runtime.InteropServices;
 //      生成号
 //      修订号
 //
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]
 [assembly: NeutralResourcesLanguage("zh-CN")]
