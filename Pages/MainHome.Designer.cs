@@ -32,6 +32,7 @@
             this.btnSettings = new AntdUI.ButtonShadow();
             this.cboMethod = new System.Windows.Forms.ComboBox();
             this.numInputPeople = new AntdUI.InputNumber();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnConfirm
@@ -60,7 +61,7 @@
             this.cboMethod.Items.AddRange(new object[] {
             "C#Random",
             "MT19937"});
-            this.cboMethod.Location = new System.Drawing.Point(90, 219);
+            this.cboMethod.Location = new System.Drawing.Point(144, 219);
             this.cboMethod.Name = "cboMethod";
             this.cboMethod.Size = new System.Drawing.Size(200, 29);
             this.cboMethod.TabIndex = 6;
@@ -96,10 +97,21 @@
             0,
             0});
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(50, 217);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 28);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "算法";
+            // 
             // MainHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cboMethod);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnConfirm);
@@ -107,6 +119,7 @@
             this.Name = "MainHome";
             this.Size = new System.Drawing.Size(400, 500);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -115,5 +128,6 @@
         private AntdUI.ButtonShadow btnSettings;
         private System.Windows.Forms.ComboBox cboMethod;
         private AntdUI.InputNumber numInputPeople;
+        private System.Windows.Forms.Label label1;
     }
 }
