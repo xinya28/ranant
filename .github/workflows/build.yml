@@ -35,8 +35,9 @@ jobs:
       run: |
         $env:RANANT_SETTINGS_PATH = Join-Path $env:RUNNER_TEMP "ranant-ci\settings.ini"
         $env:RANANT_SELFTEST_LOG = Join-Path $env:RUNNER_TEMP "ranant-ci\selftest.log"
-        & ".\bin\Release\Ranant.exe" --self-test
-        $code = $LASTEXITCODE
+        # WinExe 用 & 调用时 PowerShell 不会等待，也拿不到退出码，必须用 Start-Process -Wait。
+        $process = Start-Process -FilePath ".\bin\Release\Ranant.exe" -ArgumentList "--self-test" -Wait -PassThru
+        $code = $process.ExitCode
         if (Test-Path $env:RANANT_SELFTEST_LOG) { Get-Content $env:RANANT_SELFTEST_LOG }
         if ($code -ne 0) { throw "self-test failed with exit code $code" }
 
