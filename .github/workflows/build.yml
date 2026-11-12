@@ -25,7 +25,7 @@ jobs:
       uses: nuget/setup-nuget@v2
 
     - name: Restore NuGet packages
-      run: nuget restore ranant.csproj
+      run: nuget restore ranant.csproj -PackagesDirectory .
 
     - name: Build Release
       run: msbuild ranant.csproj /p:Configuration=Release /p:Platform=AnyCPU /p:PlatformTarget=AnyCPU
