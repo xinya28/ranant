@@ -1,4 +1,6 @@
-﻿using ranant.Pages;
+using ranant.Pages;
+using ranant.Properties;
+using ranant.UI;
 using System;
 using System.Windows.Forms;
 
@@ -15,6 +17,21 @@ namespace ranant
             InitializeComponent();
             this.FormClosing += MainForm_FormClosing;
             LoadMainHome();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            ApplyFluentTheme();
+        }
+
+        /// <summary>按用户设置刷新窗口外观（设置页切换后也会调用）。</summary>
+        public void ApplyFluentTheme()
+        {
+            FluentTheme.Apply(
+                this,
+                Settings.Default.FluentEnabled,
+                FluentTheme.ParseMode(Settings.Default.FluentThemeMode));
         }
 
         private void LoadMainHome()
@@ -92,6 +109,12 @@ namespace ranant
             if (mainSettings != null) mainSettings.Visible = false;
             controlToShow.Visible = true;
             controlToShow.BringToFront();
+
+            // 页面是懒加载的，切换到新页面后补一次配色。
+            if (FluentTheme.Enabled)
+            {
+                FluentTheme.ApplyTo(controlToShow);
+            }
         }
     }
 }

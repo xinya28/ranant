@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ranant.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
@@ -7,6 +7,18 @@
     </Setting>
     <Setting Name="LastAlgorithm" Type="System.String" Scope="User">
       <Value Profile="(Default)">C#Random</Value>
+    </Setting>
+    <Setting Name="LastUpdateSource" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GitHub</Value>
+    </Setting>
+    <Setting Name="CustomUpdateSource" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FluentEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FluentThemeMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Auto</Value>
     </Setting>
   </Settings>
 </SettingsFile>
