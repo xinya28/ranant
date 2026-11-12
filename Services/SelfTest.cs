@@ -46,8 +46,30 @@ namespace ranant.Services
                 lines.Add("version: " + typeof(SelfTest).Assembly.GetName().Version);
                 lines.Add("theme: dark=" + UI.FluentTheme.IsDark + " accent=" + UI.FluentTheme.Accent);
 
+                // 复现崩溃现场：主窗体 + 设置页的构造与保存路径必须不再抛异常。
+                var uiOk = true;
+                try
+                {
+                    using (var form = new MainForm())
+                    {
+                        lines.Add("ui: MainForm ok");
+                    }
+
+                    using (var page = new Pages.MainSettings())
+                    {
+                        lines.Add("ui: MainSettings ok");
+                    }
+
+                    lines.Add("ui: save ok = " + AppSettings.Save());
+                }
+                catch (Exception ex)
+                {
+                    uiOk = false;
+                    lines.Add("ui exception: " + ex);
+                }
+
                 WriteLog(lines);
-                return saved && roundTrip ? 0 : 2;
+                return saved && roundTrip && uiOk ? 0 : 2;
             }
             catch (Exception ex)
             {
