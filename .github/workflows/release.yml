@@ -6,31 +6,32 @@ on:
       - 'v*'
 
 permissions:
-  contents: write  # ��Ҫд��Ȩ�������� release
+  contents: write  # 需要写入权限来创建 release
 
 jobs:
   build:
     runs-on: windows-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
-      
+
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
-      
+
     - name: Restore NuGet packages
-      run: nuget restore
-      
+      run: nuget restore ranant.csproj -PackagesDirectory packages
+
     - name: Build Release
       run: msbuild /p:Configuration=Release /p:Platform="Any CPU"
-      
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
+        # 单文件 exe：AntdUI 由 Costura 从内存加载，不需要附带 .config
         files: bin/Release/**/*.exe
         draft: false
       env:

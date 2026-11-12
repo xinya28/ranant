@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore ranant.csproj -PackagesDirectory packages
+
+    - name: Build Release
+      run: msbuild ranant.csproj /p:Configuration=Release /p:Platform=AnyCPU /p:PlatformTarget=AnyCPU
+
+    - name: Settings smoke test
+      shell: pwsh
+      run: |
+        $env:RANANT_SETTINGS_PATH = Join-Path $env:RUNNER_TEMP "ranant-ci\settings.ini"
+        $env:RANANT_SELFTEST_LOG = Join-Path $env:RUNNER_TEMP "ranant-ci\selftest.log"
+        # WinExe 用 & 调用时 PowerShell 不会等待，也拿不到退出码，必须用 Start-Process -Wait。
+        $process = Start-Process -FilePath ".\bin\Release\Ranant.exe" -ArgumentList "--self-test" -Wait -PassThru
+        $code = $process.ExitCode
+        if (Test-Path $env:RANANT_SELFTEST_LOG) { Get-Content $env:RANANT_SELFTEST_LOG }
+        if ($code -ne 0) { throw "self-test failed with exit code $code" }
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Ranant-Release
+        path: bin/Release/*.exe
+        if-no-files-found: error

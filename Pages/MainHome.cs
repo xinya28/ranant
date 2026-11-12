@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
+using ranant.Services;
 
 namespace ranant.Pages
 {
@@ -27,14 +28,14 @@ namespace ranant.Pages
         public void LoadFromSettings()
         {
             // 加载人数
-            int lastNumber = Properties.Settings.Default.LastTotalNumber;
+            int lastNumber = AppSettings.LastTotalNumber;
             if (lastNumber >= numInputPeople.Minimum && lastNumber <= numInputPeople.Maximum)
                 numInputPeople.Value = lastNumber;
             else
                 numInputPeople.Value = 45;
 
             // 加载算法
-            string lastAlgo = Properties.Settings.Default.LastAlgorithm;
+            string lastAlgo = AppSettings.LastAlgorithm;
             int index = cboMethod.Items.IndexOf(lastAlgo);
             if (index >= 0)
                 cboMethod.SelectedIndex = index;
@@ -47,9 +48,9 @@ namespace ranant.Pages
         /// </summary>
         public void SaveToSettings()
         {
-            Properties.Settings.Default.LastTotalNumber = GetSelectedNumber();
-            Properties.Settings.Default.LastAlgorithm = GetSelectedMethod();
-            Properties.Settings.Default.Save();
+            AppSettings.LastTotalNumber = GetSelectedNumber();
+            AppSettings.LastAlgorithm = GetSelectedMethod();
+            AppSettings.Save();
         }
 
         // 公开获取当前选择的方法
