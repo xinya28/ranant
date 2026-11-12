@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using ranant.Properties;
 using ranant.Services;
 using ranant.UI;
 
@@ -14,6 +13,7 @@ namespace ranant.Pages
         private UpdateInfo latestUpdate;
         private bool checking;
         private bool downloading;
+        private bool loading;
 
         public MainSettings()
         {
@@ -44,16 +44,35 @@ namespace ranant.Pages
 
         private void LoadFromSettings()
         {
-            lblVersion.Text = "当前版本：v" + UpdateService.CurrentVersionText;
+            loading = true;
+            try
+            {
+                lblVersion.Text = "当前版本：v" + UpdateService.CurrentVersionText;
 
-            var source = UpdateService.ParseSource(Settings.Default.LastUpdateSource);
-            cboSource.SelectedIndex = (int)source;
-            txtCustomSource.Text = Settings.Default.CustomUpdateSource ?? string.Empty;
-            txtCustomSource.Visible = source == UpdateSource.Custom;
+                var source = UpdateService.ParseSource(AppSettings.LastUpdateSource);
+                cboSource.SelectedIndex = (int)source;
+                txtCustomSource.Text = AppSettings.CustomUpdateSource ?? string.Empty;
+                txtCustomSource.Visible = source == UpdateSource.Custom;
 
-            chkFluent.Checked = Settings.Default.FluentEnabled;
-            cboTheme.SelectedIndex = (int)FluentTheme.ParseMode(Settings.Default.FluentThemeMode);
-            cboTheme.Enabled = chkFluent.Checked;
+                chkFluent.Checked = AppSettings.FluentEnabled;
+                cboTheme.SelectedIndex = (int)FluentTheme.ParseMode(AppSettings.FluentThemeMode);
+                cboTheme.Enabled = chkFluent.Checked;
+            }
+            finally
+            {
+                loading = false;
+            }
+        }
+
+        /// <summary>保存设置；失败时只提示，不影响界面。</summary>
+        private void Persist()
+        {
+            if (AppSettings.Save())
+            {
+                return;
+            }
+
+            lblStatus.Text = "设置未能保存：" + (AppSettings.LastError ?? "未知原因");
         }
 
         private UpdateSource SelectedSource()
@@ -69,39 +88,59 @@ namespace ranant.Pages
 
         private void CboSource_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (loading)
+            {
+                return;
+            }
+
             var source = SelectedSource();
             txtCustomSource.Visible = source == UpdateSource.Custom;
-            Settings.Default.LastUpdateSource = source.ToString();
-            Settings.Default.Save();
+            AppSettings.LastUpdateSource = source.ToString();
             latestUpdate = null;
             btnDownload.Enabled = false;
+            Persist();
         }
 
         private void TxtCustomSource_TextChanged(object sender, EventArgs e)
         {
-            Settings.Default.CustomUpdateSource = txtCustomSource.Text.Trim();
-            Settings.Default.Save();
+            if (loading)
+            {
+                return;
+            }
+
+            AppSettings.CustomUpdateSource = txtCustomSource.Text.Trim();
+            Persist();
         }
 
         private void ChkFluent_CheckedChanged(object sender, EventArgs e)
         {
-            Settings.Default.FluentEnabled = chkFluent.Checked;
-            Settings.Default.Save();
+            if (loading)
+            {
+                return;
+            }
+
+            AppSettings.FluentEnabled = chkFluent.Checked;
             cboTheme.Enabled = chkFluent.Checked;
+            Persist();
             ApplyTheme();
         }
 
         private void CboTheme_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Settings.Default.FluentThemeMode = ((FluentThemeMode)cboTheme.SelectedIndex).ToString();
-            Settings.Default.Save();
+            if (loading)
+            {
+                return;
+            }
+
+            AppSettings.FluentThemeMode = ((FluentThemeMode)cboTheme.SelectedIndex).ToString();
+            Persist();
             ApplyTheme();
         }
 
         private void ApplyTheme()
         {
-            var enabled = Settings.Default.FluentEnabled;
-            var mode = FluentTheme.ParseMode(Settings.Default.FluentThemeMode);
+            var enabled = AppSettings.FluentEnabled;
+            var mode = FluentTheme.ParseMode(AppSettings.FluentThemeMode);
 
             var form = FindForm();
             if (form != null)

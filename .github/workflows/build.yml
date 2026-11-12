@@ -30,6 +30,16 @@ jobs:
     - name: Build Release
       run: msbuild ranant.csproj /p:Configuration=Release /p:Platform=AnyCPU /p:PlatformTarget=AnyCPU
 
+    - name: Settings smoke test
+      shell: pwsh
+      run: |
+        $env:RANANT_SETTINGS_PATH = Join-Path $env:RUNNER_TEMP "ranant-ci\settings.ini"
+        $env:RANANT_SELFTEST_LOG = Join-Path $env:RUNNER_TEMP "ranant-ci\selftest.log"
+        & ".\bin\Release\Ranant.exe" --self-test
+        $code = $LASTEXITCODE
+        if (Test-Path $env:RANANT_SELFTEST_LOG) { Get-Content $env:RANANT_SELFTEST_LOG }
+        if ($code -ne 0) { throw "self-test failed with exit code $code" }
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:

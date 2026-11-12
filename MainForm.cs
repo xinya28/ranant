@@ -1,5 +1,5 @@
 using ranant.Pages;
-using ranant.Properties;
+using ranant.Services;
 using ranant.UI;
 using System;
 using System.Windows.Forms;
@@ -30,8 +30,8 @@ namespace ranant
         {
             FluentTheme.Apply(
                 this,
-                Settings.Default.FluentEnabled,
-                FluentTheme.ParseMode(Settings.Default.FluentThemeMode));
+                AppSettings.FluentEnabled,
+                FluentTheme.ParseMode(AppSettings.FluentThemeMode));
         }
 
         private void LoadMainHome()

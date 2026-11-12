@@ -138,6 +138,8 @@
       <DependentUpon>MainSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Services\AppSettings.cs" />
+    <Compile Include="Services\SelfTest.cs" />
     <Compile Include="Services\UpdateService.cs" />
     <Compile Include="UI\FluentCard.cs" />
     <Compile Include="UI\FluentButton.cs" />
