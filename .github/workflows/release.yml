@@ -6,32 +6,36 @@ on:
       - 'v*'
 
 permissions:
-  contents: write  # ��Ҫд��Ȩ�������� release
+  contents: write  # 需要写入权限来创建 release
 
 jobs:
   build:
     runs-on: windows-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
-      
+
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
-      
+
     - name: Restore NuGet packages
-      run: nuget restore
-      
+      run: nuget restore ranant.csproj -PackagesDirectory packages
+
     - name: Build Release
       run: msbuild /p:Configuration=Release /p:Platform="Any CPU"
-      
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        files: bin/Release/**/*.exe
+        # 必须带上 .exe.config：里面启用了 loadFromRemoteSources，
+        # 否则从网络位置/带 Internet 标记的目录启动时 AntdUI 会加载失败。
+        files: |
+          bin/Release/**/*.exe
+          bin/Release/**/*.exe.config
         draft: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
